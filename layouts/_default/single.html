@@ -15,6 +15,14 @@
             <span class="date">{{ i18n "postReadingTime" .ReadingTime }}</span>
             {{ end }}
           </div>
+          {{ if isset .Params "images" }}
+          <br />
+          <div style="text-align: center;">
+            {{ range first 1 .Params.images }}
+            <img style="max-width: 100%;" src="{{ . | relURL }}" alt="Post cover image">
+            {{ end }}
+          </div>
+          {{ end }}
           <div class="post_content markdown">{{ .Content }}</div>
           <div class="post_footer">
             {{ with .Params.tags }}
