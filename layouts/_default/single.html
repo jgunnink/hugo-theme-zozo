@@ -15,37 +15,44 @@
             <span class="date">{{ i18n "postReadingTime" .ReadingTime }}</span>
             {{ end }}
           </div>
-          {{ if isset .Params "images" }}
+          {{ if isset .Params "coverphoto" }}
           <br />
           <div style="text-align: center;">
-            {{ range first 1 .Params.images }}
-            <img style="max-width: 100%;" src="{{ . | relURL }}" alt="Post cover image">
-            {{ end }}
+            <img style="max-width: 100%;" src="{{ .Params.coverphoto | relURL }}" alt="{{ .Params.coverAltText }}">
+            {{ if isset .Params "covercredit" }}
+            <br />
+            <caption>
+              <small>
+                {{ .Params.covercredit | safeHTML }}
+              </small>
+            </caption>
           </div>
           {{ end }}
-          <div class="post_content markdown">{{ .Content }}</div>
-          <div class="post_footer">
-            {{ with .Params.tags }}
-            <div class="meta">
-              <div class="info">
-                <span class="field tags">
-                  <i class="ri-price-tag-3-line"></i>
-                  {{ range . }}
-                  <a href="{{ "tags" | absURL }}/{{ . | urlize }}/">{{ . }}</a>
-                  {{ end }}
-                </span>
-              </div>
-            </div>
-            {{ end }}
-          </div>
         </div>
-        {{ if .Site.Params.valine.enable }}
-        {{ partial "comments.html" . }}
-        {{ else }}
-        <div class="doc_comments">{{ template "_internal/disqus.html" . }}</div>
         {{ end }}
+        <div class=" post_content markdown">{{ .Content }}</div>
+        <div class="post_footer">
+          {{ with .Params.tags }}
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="ri-price-tag-3-line"></i>
+                {{ range . }}
+                <a href="{{ "tags" | absURL }}/{{ . | urlize }}/">{{ . }}</a>
+                {{ end }}
+              </span>
+            </div>
+          </div>
+          {{ end }}
+        </div>
       </div>
+      {{ if .Site.Params.valine.enable }}
+      {{ partial "comments.html" . }}
+      {{ else }}
+      <div class="doc_comments">{{ template "_internal/disqus.html" . }}</div>
+      {{ end }}
     </div>
+  </div>
   </div>
   <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
   {{ partial "footer.html" . }}
